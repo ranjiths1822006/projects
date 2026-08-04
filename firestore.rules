@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper function
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Resumes collection: Users can read, create, update, and delete their own resumes
+    match /resumes/{resumeId} {
+      allow get: if isSignedIn() && (resource == null || resource.data.userId == request.auth.uid);
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && (resource == null || resource.data.userId == request.auth.uid);
+      allow delete: if isSignedIn() && (resource == null || resource.data.userId == request.auth.uid);
+    }
+  }
+}
+
+

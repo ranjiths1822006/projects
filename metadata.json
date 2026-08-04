@@ -1,0 +1,6 @@
+{
+  "name": "AI Resume Builder",
+  "description": "Build, customize, and AI-enhance professional resumes with live preview, ATS templates, and instant PDF/Word exports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
